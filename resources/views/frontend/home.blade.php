@@ -14,7 +14,7 @@
                 </div>
 
                 <div>
-                    <form action="{{route('shop_request')}}" method="post">
+                    <form id="form" action="{{ route('shop_request') }}" method="post">
                         @csrf
 
                         <div class="space-y-3">
@@ -66,7 +66,8 @@
                             </div>
 
                             <div>
-                                <button type="submit" class="rounded w-full py-2 text-white bg-[var(--color-primary)]">Send
+                                <button id="submit-btn" type="submit"
+                                    class="rounded w-full py-2 text-white bg-[var(--color-primary)]">Send
                                     Request</button>
                             </div>
                         </div>
@@ -75,5 +76,15 @@
             </div>
         </div>
     </section>
+
+    <script>
+        let btn = document.getElementById('submit-btn');
+        let form = document.getElementById('form');
+        btn.addEventListener('click', function(e) {
+            form.submit();
+            btn.innerHTML = "Please wait...";
+            btn.disabled = true;
+        })
+    </script>
 
 </x-frontend-layout>

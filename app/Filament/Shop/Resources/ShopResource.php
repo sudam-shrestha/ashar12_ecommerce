@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Shop\Resources;
 
-use App\Filament\Resources\ShopResource\Pages;
-use App\Filament\Resources\ShopResource\RelationManagers;
+use App\Filament\Shop\Resources\ShopResource\Pages;
+use App\Filament\Shop\Resources\ShopResource\RelationManagers;
 use App\Models\Shop;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ShopResource extends Resource
 {
@@ -24,18 +25,41 @@ class ShopResource extends Resource
         return false;
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('id', Auth::guard('shop')->user()->id);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('status')
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('shop_name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('shop_address')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('contact_number')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Select::make('shop_type')
                     ->required()
                     ->options([
-                        'pending' => 'Pending',
-                        'approved' => 'Approved',
-                        'rejected' => 'Rejected',
+                        'meat_shop' => 'Meat Shop',
+                        'grocery_store' => 'Grocery Store',
+                        'kirana_pasal' => 'Kirana Pasal',
+                        'khaja_dokan' => 'Khaja Dokan'
                     ]),
-                Forms\Components\DatePicker::make('expire_date'),
+                Forms\Components\FileUpload::make('profile_image')
+                    ->image(),
             ]);
     }
 
@@ -46,14 +70,13 @@ class ShopResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->copyable()
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('profile_image'),
                 Tables\Columns\TextColumn::make('shop_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('shop_address')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('contact_number')
-                    ->copyable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
@@ -79,7 +102,7 @@ class ShopResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -96,7 +119,7 @@ class ShopResource extends Resource
         return [
             'index' => Pages\ListShops::route('/'),
             'create' => Pages\CreateShop::route('/create'),
-            // 'edit' => Pages\EditShop::route('/{record}/edit'),
+            'edit' => Pages\EditShop::route('/{record}/edit'),
         ];
     }
 }

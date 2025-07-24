@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ShopRequestNotification;
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PageController extends BaseController
 {
@@ -32,7 +34,7 @@ class PageController extends BaseController
         $shop->contact_number = $request->contact_number;
         $shop->shop_type = $request->shop_type;
         $shop->save();
-
+        Mail::to("sudamshrestha939@gmail.com")->send(new ShopRequestNotification($shop));
         return redirect()->back();
     }
 
