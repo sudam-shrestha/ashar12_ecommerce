@@ -1,0 +1,25 @@
+@import url('/font/OpenSans-Italic-VariableFont_wdth\,wght.ttf');
+@import url('/font/OpenSans-VariableFont_wdth\,wght.ttf');
+
+:root {
+    --color-primary: #d73953;
+    --color-black: #090909;
+    --color-white: #ffffff;
+    --color-light-grey: #f3f3f3;
+    --color-dark-grey: #353535;
+    --text-color: #090909;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    color: var(--text-color);
+}
+
+.container{
+    width: 86%;
+    margin: auto;
+}
+
+button{
+    cursor: pointer;
+}
