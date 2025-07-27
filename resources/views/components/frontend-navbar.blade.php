@@ -43,7 +43,7 @@
                         class="block px-4 py-2 hover:bg-gray-100">Shop</a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{route('login')}}"
                         class="block px-4 py-2 hover:bg-gray-100">User</a>
                 </li>
             </ul>

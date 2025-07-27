@@ -92,7 +92,6 @@
                                 <span class="ml-2 bg-red-100 text-red-800 text-sm font-medium px-2 py-0.5 rounded">Save
                                     {{ $product->discount_percentage }}%</span>
                             </div>
-                            <p class="text-sm text-gray-500 mt-1">$6.99 Shipping or FREE shipping on orders over $50</p>
                         </div>
 
 
