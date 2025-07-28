@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -14,13 +15,24 @@ Route::get('/google/redirect', [AuthController::class, 'redirectToGoogle'])->nam
 Route::get('/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('add-to-cart', [CartController::class, "add_to_cart"])->name("add_to_cart");
+
+    Route::get('/cart', [CartController::class, "cart"])->name("cart");
+
+    Route::put('/cart/update/{id}', [CartController::class, "update"])->name("cart.update");
+
+    Route::delete('cart/destroy/{id}', [CartController::class, "destroy"])->name("cart.destroy");
+
+    Route::post('checkout/{id}', [CartController::class, "checkout"])->name("checkout");
+
 });
 
 require __DIR__ . '/auth.php';
