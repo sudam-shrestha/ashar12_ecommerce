@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", [PageController::class, "home"])->name("home");
@@ -31,8 +33,14 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('cart/destroy/{id}', [CartController::class, "destroy"])->name("cart.destroy");
 
-    Route::post('checkout/{id}', [CartController::class, "checkout"])->name("checkout");
-
+    Route::get('checkout/{id}', [OrderController::class, "checkout"])->name("checkout");
+    Route::post('checkout/{id}', [OrderController::class, "checkout_store"])->name("checkout.store");
 });
+
+Route::get('/voucher/{id}', function ($id) {
+    $order = Order::find($id);
+    return view('voucher', compact('order'));
+})->name('shop.voucher');
+
 
 require __DIR__ . '/auth.php';

@@ -16,7 +16,7 @@
         <x-frontend-navbar />
     </header>
 
-    <main>
+    <main class="min-h-[60vh]">
         {{ $slot }}
     </main>
 
