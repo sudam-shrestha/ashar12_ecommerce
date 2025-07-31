@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('checkout/{id}', [OrderController::class, "checkout"])->name("checkout");
     Route::post('checkout/{id}', [OrderController::class, "checkout_store"])->name("checkout.store");
+
+    Route::get('/khalti/callback', [OrderController::class, "khalti_callback"]);
+
 });
 
 Route::get('/voucher/{id}', function ($id) {

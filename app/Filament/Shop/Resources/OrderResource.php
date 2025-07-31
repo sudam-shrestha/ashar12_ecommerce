@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -63,10 +64,14 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('id', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('id')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->numeric()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('total_amount')
                     ->numeric()
                     ->sortable(),
@@ -78,9 +83,9 @@ class OrderResource extends Resource
                     ->options([
                         'pending' => 'Pending',
                         'processing' => 'Processing',
-                        'approved' => 'Approved',
+                        'Completed' => 'Completed',
                         'delivered' => 'Delivered',
-                        'cancelled' => 'Cancelled',
+                        'User canceled' => 'User canceled',
                     ])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('payment_method')
@@ -95,7 +100,14 @@ class OrderResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'processing' => 'Processing',
+                        'Completed' => 'Completed',
+                        'delivered' => 'Delivered',
+                        'User canceled' => 'User canceled',
+                    ])
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),

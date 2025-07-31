@@ -9,6 +9,7 @@
 </head>
 
 <body class="bg-gray-100 font-sans">
+    <a href="{{ route('home') }}">home</a>
     <div class="max-w-3xl mx-auto my-8 p-6 bg-white rounded-lg shadow-lg">
         <!-- Header -->
         <div class="text-center mb-6">
